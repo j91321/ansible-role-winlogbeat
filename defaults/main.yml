@@ -1,4 +1,13 @@
 ---
+winlogbeat_event_logs:
+  channels:
+    - name: Application
+      ignore_older: "72h"
+    - name: System
+      ignore_older: "72h"
+  security: true
+  sysmon: false
+
 winlogbeat_output:
   type: "elasticsearch"
   elasticsearch:

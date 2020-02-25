@@ -1,24 +1,28 @@
 # Ansible managed
 #======================= Winlogbeat specific options ===========================
 winlogbeat.event_logs:
-  - name: Application
-    ignore_older: 72h
+{% for channel in winlogbeat_event_logs.channels %}
+  - name: {{ channel.name }}
+    ignore_older: {{ channel.ignore_older | default('72h') }}
+{% endfor %}
 
-  - name: System
-
+{% if winlogbeat_event_logs.security | bool %}
   - name: Security
     processors:
       - script:
           lang: javascript
           id: security
           file: ${path.home}/module/security/config/winlogbeat-security.js
+{% endif %}
 
+{% if winlogbeat_event_logs.sysmon | bool %}
   - name: Microsoft-Windows-Sysmon/Operational
     processors:
       - script:
           lang: javascript
           id: sysmon
           file: ${path.home}/module/sysmon/config/winlogbeat-sysmon.js
+{% endif %}
 
 #==================== Elasticsearch template settings ==========================
 
