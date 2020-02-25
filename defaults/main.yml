@@ -1,2 +1,8 @@
 ---
-# defaults file for ansible-role-winlogbeat
+winlogbeat_output:
+  type: "elasticsearch"
+  elasticsearch:
+    hosts:
+      - "localhost:9200"
+    security:
+      enabled: false
