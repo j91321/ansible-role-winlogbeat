@@ -15,3 +15,9 @@ winlogbeat_output:
       - "localhost:9200"
     security:
       enabled: false
+
+winlogbeat_service:
+  install_path_64: "C:\\Program Files\\Elastic\\winlogbeat"
+  install_path_32: "C:\\Program Files (x86)\\Elastic\\winlogbeat"
+  version: "7.6.0"
+  download: true
