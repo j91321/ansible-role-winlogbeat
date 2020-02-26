@@ -57,7 +57,7 @@ None.
 Example Playbook
 ----------------
 
-Example playbook with
+Example playbook with changed installation destination, Windows Defender log collection added and redis output.
 
 ```
 - name: Install winlogbeat to workstations
@@ -67,7 +67,8 @@ Example playbook with
     winlogbeat_service:
        install_path_64: "C:\\Program Files\\monitoring\\winlogbeat"
        install_path_32: "C:\\Program Files (x86)\\monitoring\\winlogbeat"
-    version: "7.2.1"
+       version: "7.2.1"
+       download: false
     winlogbeat_event_logs:
       channels:
         - name: Application
