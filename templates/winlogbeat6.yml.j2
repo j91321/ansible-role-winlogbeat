@@ -10,10 +10,6 @@ winlogbeat.event_logs:
   - name: Security
     ignore_older: 72h
     processors:
-      - script:
-          lang: javascript
-          id: security
-          file: ${path.home}/module/security/config/winlogbeat-security.js
       - drop_event.when.or:
         - equals.winlog.event_id: 4656 # A handle to an object was requested.
         - equals.winlog.event_id: 4658 # The handle to an object was closed.
@@ -26,11 +22,6 @@ winlogbeat.event_logs:
 
 {% if winlogbeat_event_logs.sysmon | bool %}
   - name: Microsoft-Windows-Sysmon/Operational
-    processors:
-      - script:
-          lang: javascript
-          id: sysmon
-          file: ${path.home}/module/sysmon/config/winlogbeat-sysmon.js
 {% endif %}
 
 #==================== Elasticsearch template settings ==========================
@@ -155,10 +146,3 @@ processors:
 # that it is pointing to your Elasticsearch monitoring cluster, you can simply
 # uncomment the following line.
 #monitoring.elasticsearch:
-
-{% if winlogbeat_migration is defined %}
-#================================= Migration ==================================
-
-# This allows to enable 6.7 migration aliases
-migration.6_to_7.enabled: {{ winlogbeat_migration }}
-{% endif %}
