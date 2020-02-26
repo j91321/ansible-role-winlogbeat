@@ -1,48 +1,109 @@
-Role Name
+ansible-role-winlogbeat
 =========
 
-A brief description of the role goes here.
+An Ansible role that installs winlogbeat for Windows log monitoring.
+
+Supported platforms:
+
+- Windows 10
+- Windows Server 2019
+- Windows Server 2016
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+None
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Ansible variables from defaults/main.yml
+
+```
+winlogbeat_event_logs:
+  channels:
+    - name: Application
+      ignore_older: "72h"
+    - name: System
+      ignore_older: "72h"
+  security: true
+  sysmon: false
+
+winlogbeat_output:
+  type: "elasticsearch"
+  elasticsearch:
+    hosts:
+      - "localhost:9200"
+    security:
+      enabled: false
+
+winlogbeat_service:
+  install_path_64: "C:\\Program Files\\Elastic\\winlogbeat"
+  install_path_32: "C:\\Program Files (x86)\\Elastic\\winlogbeat"
+  version: "7.6.0"
+  download: true
+```
+
+The *winlogbeat_service.download* specifies if the install zip should be downloaded from https://artifacts.elastic.co/ or is copied from Ansible server. 
+If your servers don't have access to the Internet download the install zip file and place it into *.files/* folder. Don't change the zip file name.
+
+*Caution* make sure that install_path_64 and install_path_32 end with *\\winlogbeat* last task that does cleanup removes everything else from installation path which does not contain the current winlogbeat version number!
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+Example playbook with
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-winlogbeat, x: 42 }
+```
+- name: Install winlogbeat to workstations
+  hosts:
+    - workstations
+  vars:
+    winlogbeat_service:
+       install_path_64: "C:\\Program Files\\monitoring\\winlogbeat"
+       install_path_32: "C:\\Program Files (x86)\\monitoring\\winlogbeat"
+    version: "7.2.1"
+    winlogbeat_event_logs:
+      channels:
+        - name: Application
+          ignore_older: "72h"
+        - name: System
+          ignore_older: "72h"
+        - name: Microsoft-Windows-Windows Defender/Operational
+          ignore_older: "72h"
+      security: true
+      sysmon: true
+    winlogbeat_template:
+      enabled: false
+    winlogbeat_general:
+      tags:
+        - "workstation"
+        - "winlogbeat"
+    winlogbeat_output:
+      type: "redis"
+      redis:
+        hosts:
+          - "192.168.24.33:6379"
+        password: "my_super_long_redis_password_because_redis_is_fast"
+        key: "winlogbeat-workstation"
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+j91321
+
+Notes
+-----
+
+Role contains template usable with winlogbeat 6 in *./templates/winlogbeat6.yml.j2* To use this template either replace the winlogbeat.yml.j2 or modify the tasks.
