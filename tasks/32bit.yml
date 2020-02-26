@@ -19,32 +19,32 @@
     src: files/uninstall-service-winlogbeat.ps1
     dest: "{{ winlogbeat_service.install_path_32 }}\\uninstall-service-winlogbeat.ps1"
     force: yes
-  when: winlogbeat_installed.exists == True and winlogbeat_folder.stat.exists == False
+  when: winlogbeat_installed.exists and not winlogbeat_folder.stat.exists
 
 - name: Uninstall winlogbeat
   win_shell: .\uninstall-service-winlogbeat.ps1
   args:
     chdir: "{{ winlogbeat_service.install_path_32 }}"
-  when: winlogbeat_installed.exists == True and winlogbeat_folder.stat.exists == False
+  when: winlogbeat_installed.exists and not winlogbeat_folder.stat.exists
 
 - name: Download winlogbeat
   win_get_url:
     url: "https://artifacts.elastic.co/downloads/beats/winlogbeat/winlogbeat-{{ winlogbeat_service.version }}-windows-x86.zip"
     dest: "{{ winlogbeat_service.install_path_32 }}\\winlogbeat.zip"
-  when: winlogbeat_service.download == True and winlogbeat_folder.stat.exists == False
+  when: winlogbeat_service.download and not winlogbeat_folder.stat.exists
 
 - name: Copy winlogbeat
   win_copy:
     src: "files/winlogbeat-{{ winlogbeat_service.version }}-windows-x86.zip"
     dest: "{{ winlogbeat_service.install_path_32 }}\\winlogbeat.zip"
-  when: winlogbeat_service.download == False and winlogbeat_folder.stat.exists == False
+  when: not winlogbeat_service.download and not winlogbeat_folder.stat.exists
 
 - name: Unzip winlogbeat
   win_unzip:
     src: "{{ winlogbeat_service.install_path_32 }}\\winlogbeat.zip"
     dest: "{{ winlogbeat_service.install_path_32 }}\\"
     delete_archive: yes
-  when: winlogbeat_folder.stat.exists == False
+  when: not winlogbeat_folder.stat.exists
 
 - name: Configure winlogbeat
   win_template:
@@ -56,11 +56,11 @@
   win_shell: .\install-service-winlogbeat.ps1
   args:
     chdir: "{{ winlogbeat_service.install_path_32 }}\\winlogbeat-{{ winlogbeat_service.version }}-windows-x86\\"
-  when: winlogbeat_folder.stat.exists == False
+  when: not winlogbeat_folder.stat.exists
   notify: restart-winlogbeat
 
 - name: Remove other winlogbeat installations
   win_shell: |
     $version="{{ winlogbeat_service.version }}"
     Get-ChildItem -Path "{{ winlogbeat_service.install_path_32 }}" | Where-Object {$_.Name -CNotMatch $version} | Remove-Item -Recurse
-  when: winlogbeat_folder.stat.exists == False
+  when: not winlogbeat_folder.stat.exists
