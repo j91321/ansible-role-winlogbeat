@@ -44,10 +44,10 @@ winlogbeat_service:
   download: true
 ```
 
-The *winlogbeat_service.download* specifies if the install zip should be downloaded from https://artifacts.elastic.co/ or is copied from Ansible server. 
-If your servers don't have access to the Internet download the install zip file and place it into *.files/* folder. Don't change the zip file name.
+The **winlogbeat_service.download** specifies if the install zip should be downloaded from https://artifacts.elastic.co/ or is copied from Ansible server. 
+If your servers don't have access to the Internet download the install zip file and place it into **.files/** folder. Don't change the zip file name.
 
-*Caution* make sure that install_path_64 and install_path_32 end with *\\winlogbeat* last task that does cleanup removes everything else from installation path which does not contain the current winlogbeat version number!
+**Caution** make sure that install_path_64 and install_path_32 end with **\\winlogbeat** last task that does cleanup removes everything else from installation path which does not contain the current winlogbeat version number!
 
 Dependencies
 ------------

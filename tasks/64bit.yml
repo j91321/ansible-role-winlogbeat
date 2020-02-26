@@ -19,7 +19,7 @@
     src: files/uninstall-service-winlogbeat.ps1
     dest: "{{ winlogbeat_service.install_path_64 }}\\uninstall-service-winlogbeat.ps1"
     force: yes
-  when: winlogbeat_installed.exists == True and winlogbeat_folder.stat.exists == False 
+  when: winlogbeat_installed.exists == True and winlogbeat_folder.stat.exists == False
 
 - name: Uninstall winlogbeat
   win_shell: .\uninstall-service-winlogbeat.ps1
