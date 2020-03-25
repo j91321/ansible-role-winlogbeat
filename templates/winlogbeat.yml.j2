@@ -113,7 +113,7 @@ output.redis:
   password: {{ winlogbeat_output.redis.password }}
 {% endif %}
   key: {{ winlogbeat_output.redis.key }}
-{% if winlogbeat_output.redis.timeout is defined %}}
+{% if winlogbeat_output.redis.timeout is defined %}
   timeout: {{ winlogbeat_output.redis.timeout }}
 {% endif %}
 {% endif %}
