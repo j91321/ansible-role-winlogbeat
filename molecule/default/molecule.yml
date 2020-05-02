@@ -10,16 +10,14 @@ platforms:
     pull: False
     docker_host: tcp://localhost:2375
     command: ping -t localhost
-    #networks:
-    #  - name: molecule-network
-    #    ipv4_address: 172.18.0.22
-    #network_mode: nat
-    #purge_networks: yes
+    published_ports:
+      - "5986:5986/tcp"
 provisioner:
   name: ansible
   inventory:
     host_vars:
       windows-os-base:
+        ansible_host: 127.0.0.1
         ansible_user: Administrator
         ansible_password: Password123
         ansible_connection: winrm
