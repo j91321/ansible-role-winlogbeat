@@ -1,6 +1,12 @@
 ansible-role-winlogbeat
 =========
 
+[![GitHub license](https://img.shields.io/github/license/j91321/ansible-role-winlogbeat?style=flat-square)](https://github.com/j91321/ansible-role-winlogbeat/blob/master/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/j91321/ansible-role-winlogbeat.svg?style=flat-square)](https://github.com/j91321/ansible-role-winlogbeat/commit/master)
+![Build](https://github.com/j91321/ansible-role-winlogbeat/workflows/Test%20ansible%20role%20installation%20and%20publish%20to%20galaxy/badge.svg)
+[![Twitter](https://img.shields.io/twitter/follow/j91321.svg?style=social&label=Follow)](https://twitter.com/j91321)
+
+
 An Ansible role that installs winlogbeat for Windows log monitoring.
 
 Supported platforms:
