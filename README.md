@@ -34,6 +34,8 @@ winlogbeat_event_logs:
       ignore_older: "72h"
   security: true
   sysmon: false
+  powershell: true
+  wef: false
 
 winlogbeat_output:
   type: "elasticsearch"
@@ -46,7 +48,7 @@ winlogbeat_output:
 winlogbeat_service:
   install_path_64: "C:\\Program Files\\Elastic\\winlogbeat"
   install_path_32: "C:\\Program Files (x86)\\Elastic\\winlogbeat"
-  version: "7.6.0"
+  version: "7.9.0"
   download: true
 ```
 
@@ -73,7 +75,7 @@ Example playbook with changed installation destination, Windows Defender log col
     winlogbeat_service:
        install_path_64: "C:\\Program Files\\monitoring\\winlogbeat"
        install_path_32: "C:\\Program Files (x86)\\monitoring\\winlogbeat"
-       version: "7.2.1"
+       version: "7.9.0"
        download: false
     winlogbeat_event_logs:
       channels:
@@ -84,7 +86,9 @@ Example playbook with changed installation destination, Windows Defender log col
         - name: Microsoft-Windows-Windows Defender/Operational
           ignore_older: "72h"
       security: true
+      powershell: true
       sysmon: true
+      wef: false
     winlogbeat_template:
       enabled: false
     winlogbeat_general:
