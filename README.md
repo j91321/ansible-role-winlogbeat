@@ -45,10 +45,15 @@ winlogbeat_output:
     security:
       enabled: false
 
+winlogbeat_processors: |
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+
 winlogbeat_service:
   install_path_64: "C:\\Program Files\\Elastic\\winlogbeat"
   install_path_32: "C:\\Program Files (x86)\\Elastic\\winlogbeat"
-  version: "7.9.0"
+  version: "7.9.1"
   download: true
 ```
 
@@ -65,7 +70,7 @@ None.
 Example Playbook
 ----------------
 
-Example playbook with changed installation destination, Windows Defender log collection added and redis output.
+Example playbook with changed installation destination, Windows Defender log collection added, removed noisy events from security logs using processors and configured redis output.
 
 ```
 - name: Install winlogbeat to workstations
@@ -75,7 +80,7 @@ Example playbook with changed installation destination, Windows Defender log col
     winlogbeat_service:
        install_path_64: "C:\\Program Files\\monitoring\\winlogbeat"
        install_path_32: "C:\\Program Files (x86)\\monitoring\\winlogbeat"
-       version: "7.9.0"
+       version: "7.9.1"
        download: false
     winlogbeat_event_logs:
       channels:
@@ -86,6 +91,15 @@ Example playbook with changed installation destination, Windows Defender log col
         - name: Microsoft-Windows-Windows Defender/Operational
           ignore_older: "72h"
       security: true
+      security_processors: |
+          - drop_event.when.or:
+	    - equals.winlog.event_id: 4656 # A handle to an object was requested.
+	    - equals.winlog.event_id: 4658 # The handle to an object was closed.
+	    - equals.winlog.event_id: 4659 # A handle to an object was requested with intent to delete.
+	    - equals.winlog.event_id: 4660 # An object was deleted.
+	    - equals.winlog.event_id: 4663 # An attempt was made to access an object.
+	    - equals.winlog.event_id: 4664 # An attempt was made to create a hard link.
+	    - equals.winlog.event_id: 4691 # Indirect access to an object was requested.
       powershell: true
       sysmon: true
       wef: false

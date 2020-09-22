@@ -10,6 +10,11 @@ winlogbeat_event_logs:
   wef: false
   sysmon: false
 
+winlogbeat_processors: |
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+
 winlogbeat_output:
   type: "elasticsearch"
   elasticsearch:
