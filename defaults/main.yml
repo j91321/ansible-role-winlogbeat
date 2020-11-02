@@ -26,5 +26,5 @@ winlogbeat_output:
 winlogbeat_service:
   install_path_64: "C:\\Program Files\\Elastic\\winlogbeat"
   install_path_32: "C:\\Program Files (x86)\\Elastic\\winlogbeat"
-  version: "7.9.1"
+  version: "7.9.3"
   download: true
