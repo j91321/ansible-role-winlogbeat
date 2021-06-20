@@ -15,7 +15,7 @@ winlogbeat.event_logs:
           id: security
           file: ${path.home}/module/security/config/winlogbeat-security.js
 {% if winlogbeat_event_logs.security_processors is defined %}
-{{ winlogbeat_event_logs.security_processors | indent( width=6, indentfirst=True) }}
+{{ winlogbeat_event_logs.security_processors | indent( width=6, first=True) }}
 {% endif %}
 {% endif %}
 
@@ -27,7 +27,7 @@ winlogbeat.event_logs:
           id: sysmon
           file: ${path.home}/module/sysmon/config/winlogbeat-sysmon.js
 {% if winlogbeat_event_logs.sysmon_processors is defined %}
-{{ winlogbeat_event_logs.sysmon_processors | indent( width=6, indentfirst=True) }}
+{{ winlogbeat_event_logs.sysmon_processors | indent( width=6, first=True) }}
 {% endif %}
 {% endif %}
 
@@ -40,7 +40,7 @@ winlogbeat.event_logs:
           id: powershell
           file: ${path.home}/module/powershell/config/winlogbeat-powershell.js
 {% if winlogbeat_event_logs.powershell_basic_processors is defined %}
-{{ winlogbeat_event_logs.powershell_basic_processors | indent( width=6, indentfirst=True) }}
+{{ winlogbeat_event_logs.powershell_basic_processors | indent( width=6, first=True) }}
 {% endif %}
 
   - name: Microsoft-Windows-PowerShell/Operational
@@ -51,7 +51,7 @@ winlogbeat.event_logs:
           id: powershell
           file: ${path.home}/module/powershell/config/winlogbeat-powershell.js
 {% if winlogbeat_event_logs.powershell_block_processors is defined %}
-{{ winlogbeat_event_logs.powershell_block_processors | indent( width=6, indentfirst=True) }}
+{{ winlogbeat_event_logs.powershell_block_processors | indent( width=6, first=True) }}
 {% endif %}
 {% endif %}
 
@@ -79,7 +79,7 @@ winlogbeat.event_logs:
           id: powershell
           file: ${path.home}/module/powershell/config/winlogbeat-powershell.js
 {% if winlogbeat_event_logs.wef_processors is defined %}
-{{ winlogbeat_event_logs.wef_processors | indent( width=6, indentfirst=True) }}
+{{ winlogbeat_event_logs.wef_processors | indent( width=6, first=True) }}
 {% endif %}
 {% endif %}
 
@@ -177,7 +177,7 @@ output.redis:
 
 {% if winlogbeat_processors is defined %}
 processors:
-{{ winlogbeat_processors | indent( width=2, indentfirst=True) }}
+{{ winlogbeat_processors | indent( width=2, first=True) }}
 {% endif %}
 #================================ Logging =====================================
 
