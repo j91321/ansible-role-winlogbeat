@@ -152,7 +152,7 @@ output.logstash:
   # The Logstash hosts
   hosts: {{ winlogbeat_output.logstash.hosts | to_json }}
 
-{% if winlogbeat_output.logstash.security.ssl_certificate_authorities is defined %}}
+{% if winlogbeat_output.logstash.security.ssl_certificate_authorities is defined %}
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
   ssl.certificate_authorities: {{ winlogbeat_output.logstash.security.ssl_certificate_authorities | to_json }}
